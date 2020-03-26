@@ -64,7 +64,7 @@ FILE=vulerables_rpi.txt
 if [ -f "$FILE" ]; then
     cat vulerables_rpi.txt
 else 
-    echo "/n"
+    echo ""
 fi
 }
 
