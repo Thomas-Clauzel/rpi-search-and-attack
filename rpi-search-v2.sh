@@ -1,4 +1,33 @@
 #!/bin/bash
+# #########################
+# title : rpisearch.sh
+# author : tclauzel
+# description : search Raspberry and try defaut login
+# version : 1.1
+# ########################
+helpFunction()
+{
+   echo ""
+   echo "Usage: $0 -a IP_RANGE + CIDR MASK"
+   echo -e "\t-a 192.168.1.0/24"
+   exit 1 # Exit script after printing help
+}
+
+while getopts "a:b:c:" opt
+do
+   case "$opt" in
+      a ) parameterA="$OPTARG" ;;
+      ? ) helpFunction ;; # Print helpFunction in case parameter is non-existent
+   esac
+done
+
+# Print helpFunction in case parameters are empty
+if [ -z "$parameterA" ]
+then
+   echo "Some or all of the parameters are empty";
+   helpFunction
+fi
+
 echo "
 
 ██████╗ ██████╗ ██╗███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
@@ -9,13 +38,12 @@ echo "
 ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 
 "
-range="192.168.1.0/24"
+range="$parameterA"
 echo -e "\e[31m --------------------------------- \e[0m"
 echo -e "\e[31m SCANNING FOR RPi on $range  \e[0m"
 echo -e "\e[31m --------------------------------- \e[0m \n"
 nmap --script=banner -p 22 $range >> liste_rpi.txt
 grep -B 5 Raspbian liste_rpi.txt  >> liste_open.txt
-#grep -B 4 open liste_rpi.txt >> liste_open.txt
 grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}" liste_open.txt >> ip_ssh_open.txt
 echo " List of exposed ssh server : "
 echo ""
@@ -43,4 +71,9 @@ rm ip_ssh_open.txt > /dev/null 2>&1
 echo -e "\e[31m --------------------------------- \e[0m"
 echo -e "\e[31m PWNED RPi : \e[0m"
 echo -e "\e[31m --------------------------------- \e[0m \n"
-cat vulerables_rpi.txt
+FILE=vulerables_rpi.txt
+if [ -f "$FILE" ]; then
+    cat vulerables_rpi.txt
+else 
+    echo "/n"
+fi
