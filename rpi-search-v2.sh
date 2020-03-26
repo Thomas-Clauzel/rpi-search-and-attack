@@ -68,6 +68,16 @@ else
 fi
 }
 
+# ---------------------------------------------
+#
+# INSTALLING REQUIRED TOOLS
+#
+# ---------------------------------------------
+exists()
+{
+    command -v "$1" >/dev/null 2>&1
+}
+
 echo "
 
 ██████╗ ██████╗ ██╗███████╗███████╗ █████╗ ██████╗  ██████╗██╗  ██╗
@@ -78,8 +88,42 @@ echo "
 ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
 
 "
+
+# ---------------------------------------------
+#
+# VERIFY RUN AS ROOT
+#
+# ---------------------------------------------
+if [[ $EUID -ne 0 ]]; then
+    echo "Work like a true hacker ! run the script as ROOT !"
+    exit 1
+fi
+
+
 echo -e "\e[31m --------------------------------- \e[0m"
-echo -e "\e[31m SCANNING FOR RPi \e[0m"
+echo -e "\e[31m Checking for prerequisite  \e[0m"
+echo -e "\e[31m --------------------------------- \e[0m \n"
+
+## nmap ##
+if exists nmap; then
+    echo 'The program nmap exists!'
+else
+    echo 'Your system does not have the program'
+    echo '###Installing nmap..'
+    apt-get install nmap -y
+fi
+
+## sshpass ##
+if exists sshpass; then
+    echo 'The program sshpass exists!'
+else
+    echo 'Your system does not have the program'
+    echo '###Installing sshpass..'
+    apt-get install sshpass -y
+fi
+
+echo -e "\e[31m --------------------------------- \e[0m"
+echo -e "\e[31m SCANNING FOR RPi  \e[0m"
 echo -e "\e[31m --------------------------------- \e[0m \n"
 scan
 echo -e "\e[31m --------------------------------- \e[0m"
@@ -91,3 +135,4 @@ echo -e "\e[31m --------------------------------- \e[0m"
 echo -e "\e[31m PWNED RPi : \e[0m"
 echo -e "\e[31m --------------------------------- \e[0m \n"
 result
+ 
