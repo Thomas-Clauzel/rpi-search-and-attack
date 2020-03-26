@@ -79,7 +79,7 @@ echo "
 
 "
 echo -e "\e[31m --------------------------------- \e[0m"
-echo -e "\e[31m SCANNING FOR RPi on $range  \e[0m"
+echo -e "\e[31m SCANNING FOR RPi \e[0m"
 echo -e "\e[31m --------------------------------- \e[0m \n"
 scan
 echo -e "\e[31m --------------------------------- \e[0m"
