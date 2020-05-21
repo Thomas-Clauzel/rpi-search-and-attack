@@ -1,7 +1,7 @@
 #!/bin/bash
 # #########################
 # title : rpisearch.sh
-# author : tclauzel
+# author : 
 # description : search Raspberry and try defaut login
 # version : 1.1
 # ########################
